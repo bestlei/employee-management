@@ -25,10 +25,10 @@ public class LoginController {
         return "login";
     }
 
-    //@GetMapping("/dashboard")
-    //public String dashboard(){
-    //    return "dashboard";
-    //}
+    @GetMapping("/dashboard")
+    public String dashboard(){
+        return "dashboard";
+    }
 
     @PostMapping("/user/login")
     public String userLogin(@RequestParam("username") String username,
