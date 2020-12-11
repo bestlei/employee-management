@@ -1,6 +1,8 @@
 package com.study.employeemanagement.employeemanagement.config;
 
+import com.study.employeemanagement.employeemanagement.component.LoginHandlerInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,9 +15,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginHandlerInterceptor()).excludePathPatterns("/login","/login.html","/user/login","/assets/**");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("/login");
         registry.addViewController("/login.html").setViewName("/login");
-        registry.addViewController("/dashboard").setViewName("/dashboard");
+        registry.addViewController("/dashboard.html").setViewName("/dashboard");
     }
 }

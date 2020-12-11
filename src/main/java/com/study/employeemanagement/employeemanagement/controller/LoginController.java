@@ -20,16 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard(){
-        return "dashboard";
-    }
-
     @PostMapping("/user/login")
     public String userLogin(@RequestParam("username") String username,
         @RequestParam("password") String password,
@@ -38,7 +28,7 @@ public class LoginController {
         ){
         if(!StringUtils.isEmpty(username) && "123456".equals(password)){
             session.setAttribute("loginUser",username);
-            return "dashboard";
+            return "redirect:/dashboard.html";
         }else{
             error.put("msg","用户名密码错误");
             return "login";
