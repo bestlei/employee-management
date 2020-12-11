@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
-<link href="/assets/dist/css/bootstrap.min.css" th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -30,11 +30,11 @@
       }
     </style>s
     <!-- Custom styles for this template -->
-    <link href="/assets/dist/css/signin.css" th:href="@{/assets/dist/css/signin.css}" rel="stylesheet">
+    <link th:href="@{/assets/dist/css/signin.css}" rel="stylesheet">
   </head>
   <body class="text-center">
     <form class="form-signin"  th:action="@{/user/login}" method="post">
-      <img class="mb-4" src="/assets/brand/bootstrap-solid.svg" th:src="@{/assets/brand/bootstrap-solid.svg}" alt="" width="72" height="72">
+      <img class="mb-4" th:src="@{/assets/brand/bootstrap-solid.svg}" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal" text="请登入">请登入</h1>
       <p style="color:#ff0000" th:text="${msg}" th:if="${!#strings.isEmpty(msg)}"></p>
       <label class="sr-only" text="用户名">username</label>
