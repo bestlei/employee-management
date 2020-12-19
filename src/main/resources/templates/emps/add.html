@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <label>describe</label>
-                    <textarea class="form-control" id="describes" name="describes" rows="3"></textarea>
+                    <textarea class="form-control" id="describes" name="describes" rows="3" th:text="${emp} != null ? ${emp.describes}"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" th:text="${emp} !=null ? '修改' : '添加'">添加</button>
             </form>
