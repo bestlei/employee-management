@@ -1,5 +1,6 @@
 package com.study.employeemanagement.employeemanagement.service.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.study.employeemanagement.employeemanagement.dao.entity.DepartmentDO;
@@ -11,7 +12,7 @@ import com.study.employeemanagement.employeemanagement.dao.entity.DepartmentDO;
  * @date 2020/11/3 9:44 上午
  */
 @lombok.Data
-public class EmployeeDTO {
+public class EmployeeDTO implements Serializable {
     
     private Long employeeId;
 

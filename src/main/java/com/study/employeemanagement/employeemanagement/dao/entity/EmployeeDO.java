@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity(name = "EmployeeDO")
 @Table(name = "employee")
 @lombok.Data
-public class EmployeeDO {
+public class EmployeeDO{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
