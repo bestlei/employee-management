@@ -1,5 +1,7 @@
 package com.study.employeemanagement.employeemanagement;
 
+import com.alibaba.fastjson.JSON;
+
 import com.study.employeemanagement.employeemanagement.service.dto.EmployeeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,10 @@ class EmployeeManagementApplicationTests {
     StringRedisTemplate stringRedisTemplate;   // 操作字符串
 
     @Autowired
-    RedisTemplate<Object, Object> myRedisTemplate;  // 操作k-v都是对象的
+    RedisTemplate redisTemplate; // 操作Object
+
+    @Autowired
+    RedisTemplate<String, EmployeeDTO> myRedisTemplate;  // 操作k-v都是对象的
 
 
     @Test
@@ -31,22 +36,19 @@ class EmployeeManagementApplicationTests {
      */
     @Test
     public void testRedis(){
-        stringRedisTemplate.opsForValue().append("msg","hello");
-        stringRedisTemplate.opsForList().leftPush("myList","1");
-        String result = stringRedisTemplate.opsForValue().get("msg");
-        System.out.println(result);
-    }
+        // 操作key为字符串
+        // stringRedisTemplate.opsForValue().append("msg","hello");
+        // stringRedisTemplate.opsForList().leftPush("myList","1");
+        // stringRedisTemplate.opsForHash().put("myHash","key1","value1");
+        // stringRedisTemplate.opsForHash().put("myHash","key2","value2");
 
-    @Test
-    public void testRedisSaveObject(){
+        // 操作key为Object
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEmployeeId(123L);
-        // 1、自己将对象转化为json
-        // redisTemplate.opsForValue().set("employee", JSON.toJSONString(employeeDO));
-        // 2、定制redis序列化配置
-        myRedisTemplate.opsForValue().set("employee",employeeDTO);
-        EmployeeDTO employeeDTORedisResult = (EmployeeDTO)myRedisTemplate.opsForValue().get("employee");
-        System.out.println(employeeDTO);
+        // 第一种方式，存储前直接序列化
+        stringRedisTemplate.opsForValue().set("employee1",JSON.toJSONString(employeeDTO));
+        // 第二种方式，自定义redisTemplate序列化对象
+        myRedisTemplate.opsForValue().set("employee2", employeeDTO);
     }
 
 }

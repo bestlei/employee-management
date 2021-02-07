@@ -1,5 +1,6 @@
 package com.study.employeemanagement.employeemanagement.dao.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity(name = "EmployeeDO")
 @Table(name = "employee")
 @lombok.Data
-public class EmployeeDO{
+public class EmployeeDO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

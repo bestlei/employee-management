@@ -3,13 +3,13 @@ package com.study.employeemanagement.employeemanagement.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.study.employeemanagement.employeemanagement.dao.DepartmentDAO;
 import com.study.employeemanagement.employeemanagement.dao.EmployeeDAO;
 import com.study.employeemanagement.employeemanagement.dao.entity.DepartmentDO;
 import com.study.employeemanagement.employeemanagement.dao.entity.EmployeeDO;
 import com.study.employeemanagement.employeemanagement.service.dto.EmployeeDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,13 +23,14 @@ import org.springframework.util.CollectionUtils;
  * @date 2020/11/3 9:40 上午
  */
 @Service
+@CacheConfig(cacheManager = "empRedisCacheManager")
 public class EmployeeService {
 
     @Autowired
     private EmployeeDAO employeeDAO;
 
     @Autowired
-    private DepartmentDAO departmentDAO;
+    private DepartmentService departmentService;
 
     public List<EmployeeDTO> findAllEmployees() {
         List<EmployeeDTO> employeeDTOList = new ArrayList<>();
@@ -41,7 +42,7 @@ public class EmployeeService {
         for (EmployeeDO employeeDO : employeeDOList) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
             BeanUtils.copyProperties(employeeDO, employeeDTO, "id", "departmentId");
-            DepartmentDO departmentDO = departmentDAO.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
+            DepartmentDO departmentDO = departmentService.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
             employeeDTO.setDepartmentDO(departmentDO);
             employeeDTOList.add(employeeDTO);
         }
@@ -68,7 +69,7 @@ public class EmployeeService {
         System.out.println("查询员工信息，employeeId：" + employeeId);
         EmployeeDO employeeDO = employeeDAO.findEmployeeDOByEmployeeId(employeeId);
         BeanUtils.copyProperties(employeeDO, employeeDTO, "id", "departmentId");
-        DepartmentDO departmentDO = departmentDAO.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
+        DepartmentDO departmentDO = departmentService.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
         employeeDTO.setDepartmentDO(departmentDO);
         return employeeDTO;
     }
@@ -93,7 +94,7 @@ public class EmployeeService {
             employeeDO.getBirth(), employeeDO.getEmail(), employeeDO.getDepartmentId(), employeeDO.getDescribes());
         EmployeeDTO employeeDTO = new EmployeeDTO();
         BeanUtils.copyProperties(employeeDO, employeeDTO, "id", "departmentId");
-        DepartmentDO departmentDO = departmentDAO.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
+        DepartmentDO departmentDO = departmentService.findDepartmentDOByDepartmentId(employeeDO.getDepartmentId());
         employeeDTO.setDepartmentDO(departmentDO);
         return employeeDTO;
     }
