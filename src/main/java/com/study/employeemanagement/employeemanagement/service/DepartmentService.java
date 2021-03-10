@@ -1,13 +1,11 @@
 package com.study.employeemanagement.employeemanagement.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.study.employeemanagement.employeemanagement.dao.DepartmentDAO;
 import com.study.employeemanagement.employeemanagement.dao.entity.DepartmentDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Description:
@@ -22,5 +20,21 @@ public class DepartmentService {
 
     public List<DepartmentDO> findAllDepartment(){
         return departmentDAO.findAll();
+    }
+
+    public DepartmentDO findDepartmentDOById(Long departmentId){
+        return departmentDAO.findDepartmentDOByDepartmentId(departmentId);
+    }
+
+    /**
+     * 保存部门信息
+     * @param departmentDO
+     */
+    public void addDepartment(DepartmentDO departmentDO){
+        departmentDAO.save(departmentDO);
+    }
+
+    public void updateDepartment(DepartmentDO departmentDO){
+        departmentDAO.updateDepartmentDOById(departmentDO.getDepartmentName(), departmentDO.getDepartmentId());
     }
 }

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @lombok.Data
 public class DepartmentDO {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long departmentId;
