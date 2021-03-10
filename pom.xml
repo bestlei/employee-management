@@ -19,6 +19,11 @@
     </properties>
 
     <dependencies>
+        <!-- rabbitmq相关pom依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
         <!-- mysql数据库连接相关pom依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

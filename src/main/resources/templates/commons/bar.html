@@ -34,20 +34,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <span data-feather="file"></span>
-                        订单信息
+                        HR服务
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link active" th:class="${activeUri}=='depts'?'nav-link active':'nav-link'"
+                       th:href="@{/depts}">
                         <span data-feather="shopping-cart"></span>
-                        产品信息
+                        部门管理
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" th:class="${activeUri}=='emps'?'nav-link active':'nav-link'"
-                       href="#" th:href="@{/emps}">
+                       th:href="@{/emps}">
                         <span data-feather="users"></span>
-                        员工列表
+                        员工管理
                     </a>
                 </li>
                 <li class="nav-item">

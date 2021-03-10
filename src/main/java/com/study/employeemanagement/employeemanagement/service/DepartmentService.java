@@ -26,8 +26,19 @@ public class DepartmentService {
         return departmentDAO.findAll();
     }
 
-    @Cacheable(cacheNames = "dept", key = "#departmentId")
-    public DepartmentDO findDepartmentDOByDepartmentId(Long departmentId){
+    public DepartmentDO findDepartmentDOById(Long departmentId){
         return departmentDAO.findDepartmentDOByDepartmentId(departmentId);
+    }
+
+    /**
+     * 保存部门信息
+     * @param departmentDO
+     */
+    public void addDepartment(DepartmentDO departmentDO){
+        departmentDAO.save(departmentDO);
+    }
+
+    public void updateDepartment(DepartmentDO departmentDO){
+        departmentDAO.updateDepartmentDOById(departmentDO.getDepartmentName(), departmentDO.getDepartmentId());
     }
 }

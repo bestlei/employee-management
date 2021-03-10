@@ -1,54 +1,56 @@
 package com.study.employeemanagement.employeemanagement;
 
-import com.alibaba.fastjson.JSON;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.study.employeemanagement.employeemanagement.service.dto.EmployeeDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.Binding.DestinationType;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 @SpringBootTest
 class EmployeeManagementApplicationTests {
 
     @Autowired
-    StringRedisTemplate stringRedisTemplate;   // 操作字符串
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
-    RedisTemplate redisTemplate; // 操作Object
-
-    @Autowired
-    RedisTemplate<String, EmployeeDTO> myRedisTemplate;  // 操作k-v都是对象的
-
+    private AmqpAdmin amqpAdmin;
 
     @Test
     void contextLoads() {
     }
 
-    /**
-     * String、List、Set、Hash、Zset
-     * stringRedisTemplate.opsForValue()
-     * stringRedisTemplate.opsForList()
-     * stringRedisTemplate.opsForSet()
-     * stringRedisTemplate.opsForHash()
-     * stringRedisTemplate.opsForZSet()
-     */
     @Test
-    public void testRedis(){
-        // 操作key为字符串
-        // stringRedisTemplate.opsForValue().append("msg","hello");
-        // stringRedisTemplate.opsForList().leftPush("myList","1");
-        // stringRedisTemplate.opsForHash().put("myHash","key1","value1");
-        // stringRedisTemplate.opsForHash().put("myHash","key2","value2");
+    void sendRabbitMQ(){
+        Map<String, Object> object = new HashMap<String, Object>();
+        object.put("key1",123);
+        object.put("key2",true);
+        object.put("key3", Arrays.asList("abc","def"));
+        rabbitTemplate.convertAndSend("emp.direct","zhangsan.aig", object);
+    }
 
-        // 操作key为Object
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setEmployeeId(123L);
-        // 第一种方式，存储前直接序列化
-        stringRedisTemplate.opsForValue().set("employee1",JSON.toJSONString(employeeDTO));
-        // 第二种方式，自定义redisTemplate序列化对象
-        myRedisTemplate.opsForValue().set("employee2", employeeDTO);
+    @Test
+    public void receiveRabbitMQ(){
+        Object o = rabbitTemplate.receiveAndConvert("zhangsan.aig");
+        System.out.println(o.getClass());
+        System.out.println(o);
+    }
+
+    @Test
+    public void register(){
+        DirectExchange directExchange = new DirectExchange("amqpAdmin.direct");
+        Queue queue = new Queue("amqpAdmin.queue");
+        amqpAdmin.declareExchange(directExchange);
+        amqpAdmin.declareQueue(queue);
+        amqpAdmin.declareBinding(
+            new Binding("amqpAdmin.queue", DestinationType.QUEUE, "amqpAdmin.direct", "amqpAdmin.queue", null));
     }
 
 }

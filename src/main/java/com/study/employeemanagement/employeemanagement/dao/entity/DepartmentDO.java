@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @lombok.Data
 public class DepartmentDO implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long departmentId;
